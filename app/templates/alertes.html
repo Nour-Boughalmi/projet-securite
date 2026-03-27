@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alertes de Sécurité</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0d1117; }
+        .navbar { background: #161b22; border-bottom: 1px solid #30363d; }
+        .table-dark { --bs-table-bg: #161b22; }
+        .legende-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; }
+    </style>
+    <meta http-equiv="refresh" content="15">
+</head>
+<body class="text-white">
+
+    <nav class="navbar px-4 py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-bold text-danger">🚨 Centre d'Alertes</span>
+        <div class="d-flex gap-2">
+            <a href="/dashboard" class="btn btn-outline-secondary btn-sm">← Dashboard</a>
+            <a href="/logs" class="btn btn-outline-secondary btn-sm">📋 Logs</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Alertes détectées <span class="badge bg-danger ms-2">{{ alertes|length }}</span></h4>
+            <small class="text-white-50">🔄 Actualisé toutes les 15 secondes</small>
+        </div>
+
+        {% if alertes %}
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Date / Heure</th>
+                        <th>Type</th>
+                        <th>IP Source</th>
+                        <th>Utilisateur ciblé</th>
+                        <th>Sévérité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alerte in alertes %}
+                    <tr>
+                        <td class="text-white-50 small">{{ alerte.timestamp }}</td>
+                        <td>
+                            {% if alerte.type == "BRUTE_FORCE" %}🔨
+                            {% elif alerte.type == "CONNEXION_NOCTURNE" %}🌙
+                            {% elif alerte.type == "ENUMERATION_COMPTES" %}🔍
+                            {% elif alerte.type == "SCAN_VULNERABILITES" %}🕵️
+                            {% else %}⚠️{% endif %}
+                            <strong>{{ alerte.type }}</strong>
+                        </td>
+                        <td><code class="text-info">{{ alerte.ip }}</code></td>
+                        <td>{{ alerte.username }}</td>
+                        <td>
+                            <span class="badge px-3 py-2
+                                {% if alerte.severite == 'HIGH' %}bg-danger
+                                {% elif alerte.severite == 'MEDIUM' %}bg-warning text-dark
+                                {% else %}bg-info text-dark{% endif %}">
+                                {{ alerte.severite }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-success d-flex align-items-center">
+            <span style="font-size:1.5rem" class="me-3">✅</span>
+            <div>
+                <strong>Aucune alerte pour le moment.</strong><br>
+                <small>Le système surveille activement toutes les connexions.</small>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="legende-card p-3 mt-4">
+            <h6 class="text-white-50 mb-3">📖 Légende</h6>
+            <div class="row g-2 small">
+                <div class="col-md-6"><span class="badge bg-danger me-2">HIGH</span>🔨 BRUTE_FORCE — 5+ échecs en 10 min</div>
+                <div class="col-md-6"><span class="badge bg-warning text-dark me-2">MEDIUM</span>🌙 CONNEXION_NOCTURNE — Entre 00h et 05h</div>
+                <div class="col-md-6"><span class="badge bg-warning text-dark me-2">MEDIUM</span>🔍 ENUMERATION_COMPTES — 3+ essais compte inexistant</div>
+                <div class="col-md-6"><span class="badge bg-warning text-dark me-2">MEDIUM</span>🕵️ SCAN_VULNERABILITES — 10+ erreurs 404</div>
+                <div class="col-md-6"><span class="badge bg-warning text-dark me-2">MEDIUM</span>⚠️ VOLUME_ANORMAL — 20+ requêtes en 5 min</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

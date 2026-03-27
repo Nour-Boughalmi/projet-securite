@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0d1117; }
+        .navbar { background: #161b22; border-bottom: 1px solid #30363d; }
+        .table-dark { --bs-table-bg: #161b22; }
+    </style>
+    <meta http-equiv="refresh" content="20">
+</head>
+<body class="text-white">
+
+    <nav class="navbar px-4 py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-bold">📋 Journal des événements</span>
+        <div class="d-flex gap-2">
+            <a href="/dashboard" class="btn btn-outline-secondary btn-sm">← Dashboard</a>
+            <a href="/alertes" class="btn btn-outline-danger btn-sm">🚨 Alertes</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h4 class="mb-3">100 derniers événements <span class="badge bg-secondary ms-2">{{ logs|length }}</span></h4>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle small">
+                <thead>
+                    <tr>
+                        <th>Date / Heure</th>
+                        <th>Type</th>
+                        <th>Événement</th>
+                        <th>Utilisateur</th>
+                        <th>IP</th>
+                        <th>Résultat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td class="text-white-50">{{ log.timestamp }}</td>
+                        <td>
+                            <span class="badge
+                                {% if log.type == 'AUTH' %}bg-primary
+                                {% elif log.type == 'NETWORK' %}bg-secondary
+                                {% else %}bg-dark border{% endif %}">
+                                {{ log.type }}
+                            </span>
+                        </td>
+                        <td>{{ log.event or log.method or log.error_code }}</td>
+                        <td><strong>{{ log.username or "-" }}</strong></td>
+                        <td><code class="text-info">{{ log.ip }}</code></td>
+                        <td>
+                            {% if log.succes == true %}
+                                <span class="badge bg-success">✅ Succès</span>
+                            {% elif log.succes == false %}
+                                <span class="badge bg-danger">❌ Échec</span>
+                            {% else %}
+                                <span class="badge bg-secondary">— HTTP {{ log.status_code or log.error_code }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if not logs %}
+        <div class="alert alert-info">Aucun événement enregistré pour le moment.</div>
+        {% endif %}
+    </div>
+</body>
+</html>

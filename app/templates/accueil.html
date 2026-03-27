@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Application Sécurisée</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; }
+        .card-tech { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; }
+    </style>
+</head>
+<body class="text-white d-flex align-items-center justify-content-center" style="min-height:100vh">
+    <div class="container text-center" style="max-width:700px">
+
+        <div class="mb-3" style="font-size:4rem">🔒</div>
+        <h1 class="display-5 fw-bold mb-3">Application Web Sécurisée</h1>
+        <p class="lead text-white-50 mb-4">
+            Supervision en temps réel et détection automatique d'activités suspectes
+        </p>
+
+        <div class="mb-5">
+            <span class="badge bg-secondary m-1 p-2">⚡ FastAPI</span>
+            <span class="badge bg-secondary m-1 p-2">🍃 MongoDB</span>
+            <span class="badge bg-secondary m-1 p-2">☁️ Render Cloud</span>
+            <span class="badge bg-secondary m-1 p-2">🔐 HTTPS</span>
+            <span class="badge bg-secondary m-1 p-2">🚨 Détection temps réel</span>
+        </div>
+
+        <div class="d-flex gap-3 justify-content-center flex-wrap mb-5">
+            <a href="/login" class="btn btn-primary btn-lg px-5">🔑 Se connecter</a>
+            <a href="/docs" class="btn btn-outline-light btn-lg px-5" target="_blank">📄 API Docs</a>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card-tech p-3">
+                    <div style="font-size:2rem">🛡️</div>
+                    <h6 class="mt-2">Login Sécurisé</h6>
+                    <small class="text-white-50">Mots de passe hachés bcrypt</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-tech p-3">
+                    <div style="font-size:2rem">📋</div>
+                    <h6 class="mt-2">Logs Complets</h6>
+                    <small class="text-white-50">AUTH + NETWORK + ERROR</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-tech p-3">
+                    <div style="font-size:2rem">🚨</div>
+                    <h6 class="mt-2">4 Règles de détection</h6>
+                    <small class="text-white-50">Alertes automatiques</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

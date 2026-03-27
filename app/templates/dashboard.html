@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0d1117; }
+        .navbar { background: #161b22; border-bottom: 1px solid #30363d; }
+        .stat-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-3px); }
+        .info-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; }
+    </style>
+    <meta http-equiv="refresh" content="30">
+</head>
+<body class="text-white">
+
+    <nav class="navbar px-4 py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-bold">🔒 Dashboard Sécurisé</span>
+        <div class="d-flex gap-2">
+            <a href="/logs" class="btn btn-outline-secondary btn-sm">📋 Logs</a>
+            <a href="/alertes" class="btn btn-outline-danger btn-sm">🚨 Alertes</a>
+            <a href="/docs" class="btn btn-outline-info btn-sm" target="_blank">📄 API</a>
+            <a href="/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h4 class="text-white-50 mb-4">Supervision en temps réel</h4>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card p-4 text-center">
+                    <div style="font-size:2.5rem">📋</div>
+                    <h2 class="fw-bold text-info mt-2">{{ total_logs }}</h2>
+                    <p class="text-white-50 mb-0 small">Total événements</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card p-4 text-center">
+                    <div style="font-size:2.5rem">✅</div>
+                    <h2 class="fw-bold text-success mt-2">{{ succes }}</h2>
+                    <p class="text-white-50 mb-0 small">Connexions réussies</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card p-4 text-center">
+                    <div style="font-size:2.5rem">❌</div>
+                    <h2 class="fw-bold text-warning mt-2">{{ echecs }}</h2>
+                    <p class="text-white-50 mb-0 small">Tentatives échouées</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card p-4 text-center">
+                    <div style="font-size:2.5rem">🚨</div>
+                    <h2 class="fw-bold text-danger mt-2">{{ total_alertes }}</h2>
+                    <p class="text-white-50 mb-0 small">Alertes générées</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card p-4 mb-3">
+            <h5 class="mb-3">🛡️ Règles de détection actives</h5>
+            <ul class="list-unstyled mb-0">
+                <li class="mb-2">✅ <strong>Brute Force</strong> — ≥ 5 échecs depuis la même IP en 10 min → HIGH</li>
+                <li class="mb-2">✅ <strong>Connexion nocturne</strong> — Connexion entre 00h et 05h → MEDIUM</li>
+                <li class="mb-2">✅ <strong>Énumération de comptes</strong> — ≥ 3 tentatives sur compte inexistant → MEDIUM</li>
+                <li class="mb-2">✅ <strong>Volume anormal</strong> — ≥ 20 requêtes en 5 min → MEDIUM</li>
+                <li>✅ <strong>Scan de vulnérabilités</strong> — ≥ 10 erreurs 404 en 5 min → MEDIUM</li>
+            </ul>
+        </div>
+
+        <div class="info-card p-4">
+            <h5 class="mb-3">Actions rapides</h5>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/alertes" class="btn btn-danger">🚨 Voir les alertes</a>
+                <a href="/logs" class="btn btn-secondary">📋 Consulter les logs</a>
+                <a href="/docs" class="btn btn-info" target="_blank">📄 Documentation API</a>
+            </div>
+        </div>
+
+        <p class="text-white-50 small text-center mt-3">🔄 Actualisé automatiquement toutes les 30 secondes</p>
+    </div>
+</body>
+</html>
