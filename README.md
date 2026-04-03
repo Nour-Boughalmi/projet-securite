@@ -1,9 +1,8 @@
 # Secure Web Application — Intrusion Detection System
 
 > Pipeline CI/CD sécurisé avec supervision applicative et détection d'anomalies en temps réel.  
-> Projet orienté **DevSecOps** : shift-left security, analyse de logs, dashboards de supervision.
 
-![Security CI](https://github.com/TON_USERNAME/TON_REPO/actions/workflows/security-ci.yml/badge.svg)
+![Security CI](https://github.com/Nour-Boughalmi/https://github.com/Nour-Boughalmi/projet-securite.git/actions/workflows/security-ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-secured-green)
 ![Docker](https://img.shields.io/badge/Docker-ready-blue)
