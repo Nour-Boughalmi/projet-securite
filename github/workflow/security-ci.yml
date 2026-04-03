@@ -1,0 +1,61 @@
+name: Security CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  security-scan:
+    name: Scan sécurité
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install bandit safety pytest pytest-cov
+
+      - name: Bandit — SAST scan
+        run: bandit -r app/ -f json -o bandit-report.json || true
+
+      - name: Safety — SCA scan
+        run: safety check || true
+
+      - name: Tests unitaires + couverture
+        run: |
+          pytest tests/ -v --cov=app --cov-report=term-missing
+
+      - name: Upload rapport Bandit
+        uses: actions/upload-artifact@v3
+        with:
+          name: bandit-report
+          path: bandit-report.json
+
+  docker-build:
+    name: Build Docker
+    runs-on: ubuntu-latest
+    needs: security-scan
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build image
+        run: docker build -t secure-app .
+
+  deploy:
+    name: Deploy Render
+    runs-on: ubuntu-latest
+    needs: docker-build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Trigger Render deploy
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
